@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Local Userscript Loader",
+  "version": "1.0.0",
+  "description": "Carrega o script local no contexto principal das páginas HTTP(S).",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://baiakidle.com/jogar/*",
+        "*://www.baiakidle.com/jogar/*"
+      ],
+      "js": ["script.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
