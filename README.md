@@ -31,7 +31,7 @@ Use a senha definida em `VNC_PASSWORD`. Para ver logs: `docker compose logs -f`.
 
 | Modo | Quando usar | Como funciona |
 | --- | --- | --- |
-| `native` (padrão) | O script usa DOM, `fetch`, eventos e APIs normais da página. | Uma extensão MV3 local injeta `script.js` no mundo principal, no início das páginas do Baiak Idle cobertas pelos `@match` atuais. Não exige instalação manual e recarregar a página aplica edições no arquivo. |
+| `native` (padrão) | O script usa DOM, `fetch`, eventos e APIs normais da página. | Uma extensão MV3 local injeta `script.js` no mundo principal, no início das páginas do Baiak Idle cobertas pelos `@match` atuais. Não exige instalação manual. |
 | `tampermonkey` | O script usa `GM_*`, `GM.*`, `@grant`, `@require`, `@resource`, menus ou armazenamento próprio do Tampermonkey. | O Chrome instala o Tampermonkey oficial pela política de extensão. No primeiro boot, abra o painel dele e importe/cole o `script.js`. O perfil e a extensão ficam no volume `chrome-data`. |
 | `none` | Diagnóstico ou uso sem automação. | Não carrega a extensão nativa. O Tampermonkey que já existe no perfil permanece disponível. |
 
@@ -62,7 +62,7 @@ Em produção, prefira injetar a senha por Docker Secret, definindo `VNC_PASSWOR
 ## Persistência, atualização e operação
 
 - O volume nomeado `chrome-data` preserva perfil, cookies, extensões e configurações. Não o remova se quiser manter a sessão.
-- `./script.js` é montado como somente leitura. No modo `native`, edite-o no host e recarregue a aba; não é necessário rebuild.
+- `script.js` é incorporado à imagem no build. Depois de editá-lo, faça `docker compose up -d --build`; no Coolify, confirme o commit e faça redeploy. Isso evita bind mounts de arquivos, que podem ser convertidos em diretórios pelo ambiente de deployment.
 - Para atualizar o Chrome, faça rebuild: `docker compose build --pull --no-cache` e depois `docker compose up -d`.
 - A imagem é `linux/amd64`, pois instala o pacote oficial do Google Chrome. Em ARM, seria preciso trocar para Chromium e adaptar as políticas.
 
