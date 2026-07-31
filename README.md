@@ -17,12 +17,12 @@ Ele toma como inspiração a ideia do repositório [JobSuperhero/MetaTrader5-Doc
 3. Suba o serviço:
 
    ```powershell
-   docker compose up -d --build
+   docker compose -f compose.yaml -f compose.local.yaml up -d --build
    ```
 
 4. Acesse uma das interfaces:
 
-   - noVNC: `http://127.0.0.1:6080/vnc.html`
+- noVNC: `http://127.0.0.1:6080/vnc.html`
    - VNC: `127.0.0.1:5900`
 
 Use a senha definida em `VNC_PASSWORD`. Para ver logs: `docker compose logs -f`.
@@ -63,7 +63,7 @@ Em produção, prefira injetar a senha por Docker Secret, definindo `VNC_PASSWOR
 
 - O volume nomeado `chrome-data` preserva perfil, cookies, extensões e configurações. Não o remova se quiser manter a sessão.
 - `script.js` é incorporado à imagem no build. Depois de editá-lo, faça `docker compose up -d --build`; no Coolify, confirme o commit e faça redeploy. Isso evita bind mounts de arquivos, que podem ser convertidos em diretórios pelo ambiente de deployment.
-- Para atualizar o Chrome, faça rebuild: `docker compose build --pull --no-cache` e depois `docker compose up -d`.
+- Para atualizar o Chrome localmente, faça rebuild: `docker compose -f compose.yaml -f compose.local.yaml build --pull --no-cache` e depois suba com os mesmos dois arquivos.
 - A imagem é `linux/amd64`, pois instala o pacote oficial do Google Chrome. Em ARM, seria preciso trocar para Chromium e adaptar as políticas.
 
 ## Estrutura
@@ -74,6 +74,7 @@ Em produção, prefira injetar a senha por Docker Secret, definindo `VNC_PASSWOR
 ├── docker/entrypoint.sh             # Xvfb, VNC/noVNC e Chrome
 ├── extension/manifest.json          # loader MV3 para o modo native
 ├── compose.yaml
+├── compose.local.yaml               # portas VNC/noVNC apenas no host local
 ├── Dockerfile
 └── script.js                         # seu userscript
 ```

@@ -13,9 +13,10 @@ services:
       SCRIPT_MODE: ${SCRIPT_MODE:-native}
       TZ: ${TZ:-Etc/UTC}
       VNC_PASSWORD: ${VNC_PASSWORD:-}
-    ports:
-      - "${BIND_ADDRESS:-127.0.0.1}:${NOVNC_PORT:-6080}:6080"
-      - "${BIND_ADDRESS:-127.0.0.1}:${VNC_PORT:-5900}:5900"
+    # Mantem apenas a UI HTTP/noVNC visivel ao proxy do Coolify. Com uma unica
+    # porta exposta, dominios gerados automaticamente sao encaminhados a 6080.
+    expose:
+      - "6080"
     volumes:
       - chrome-data:/home/chrome/.config/google-chrome
     shm_size: 512mb

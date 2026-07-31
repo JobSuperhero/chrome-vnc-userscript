@@ -40,7 +40,9 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 0755 /usr/local/bin/entrypoint.sh \
     && chown -R chrome:chrome /home/chrome /opt/userscript-loader
 
-EXPOSE 5900 6080
+# Apenas noVNC e exposto em producao; o VNC puro continua interno e e usado
+# pelo websockify. O override local publica ambos para desenvolvimento.
+EXPOSE 6080
 VOLUME ["/home/chrome/.config/google-chrome"]
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]

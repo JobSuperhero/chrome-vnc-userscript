@@ -1,0 +1,7 @@
+services:
+  chrome:
+    # Override exclusivo para execucao local. Em producao/Coolify, use apenas
+    # compose.yaml para nao publicar VNC puro nem confundir a porta do proxy.
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${NOVNC_PORT:-6080}:6080"
+      - "${BIND_ADDRESS:-127.0.0.1}:${VNC_PORT:-5900}:5900"
