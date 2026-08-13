@@ -36,10 +36,12 @@ COPY chrome-policy/tampermonkey.json /etc/opt/chrome/policies/managed/tampermonk
 COPY extension/ /opt/userscript-loader/
 COPY script.js /opt/userscript-loader/script.js
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+# Copia a nova extensão de auto-reload para dentro do container
+COPY extensao-reload/ /opt/extensao-reload/
 
+# Dá as permissões necessárias também para a nova pasta (/opt/extensao-reload)
 RUN chmod 0755 /usr/local/bin/entrypoint.sh \
-    && chown -R chrome:chrome /home/chrome /opt/userscript-loader
-
+    && chown -R chrome:chrome /home/chrome /opt/userscript-loader /opt/extensao-reload
 # Apenas noVNC e exposto em producao; o VNC puro continua interno e e usado
 # pelo websockify. O override local publica ambos para desenvolvimento.
 EXPOSE 6080
