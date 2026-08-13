@@ -88,10 +88,15 @@ set -- google-chrome-stable \
 
 if [ "$SCRIPT_MODE" = "native" ]; then
   set -- "$@" \
-    --disable-extensions-except=/opt/userscript-loader \
-    --load-extension=/opt/userscript-loader
+    --disable-extensions-except=/opt/userscript-loader,/opt/extensao-reload \
+    --load-extension=/opt/userscript-loader,/opt/extensao-reload
 elif [ "$SCRIPT_MODE" = "tampermonkey" ]; then
   log "Tampermonkey sera instalado pela politica do Chrome; aguarde o primeiro boot."
+  set -- "$@" \
+    --load-extension=/opt/extensao-reload
+elif [ "$SCRIPT_MODE" = "none" ]; then
+  set -- "$@" \
+    --load-extension=/opt/extensao-reload
 fi
 
 log "Iniciando Chrome (${SCRIPT_MODE}) em ${SCREEN_RESOLUTION}; noVNC: 6080, VNC: 5900."
