@@ -19,7 +19,6 @@ services:
       - "6080"
     volumes:
       - chrome-data:/home/chrome/.config/google-chrome
-      - ./extensao-reload:/opt/extensao-reload
     shm_size: 512mb
     pids_limit: 512
     # O sandbox do Chrome precisa criar namespaces; o perfil seccomp padrão do
